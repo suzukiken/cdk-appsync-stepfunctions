@@ -10,14 +10,14 @@ export class CdkAppsyncStepfunctionsStack extends cdk.Stack {
     // state machine
     
     const task = new sfn.Wait(this, "task", {
-      time: sfn.WaitTime.duration(cdk.Duration.seconds(5)),
+      time: sfn.WaitTime.duration(cdk.Duration.seconds(30)),
     })
     
     const definition = task
 
     const state_machine = new sfn.StateMachine(this, "state_machine", {
       definition,
-      timeout: cdk.Duration.seconds(10),
+      timeout: cdk.Duration.seconds(40),
     })
     
     // iam role
