@@ -1,10 +1,11 @@
-import * as cdk from '@aws-cdk/core';
-import * as appsync from "@aws-cdk/aws-appsync";
-import * as iam from "@aws-cdk/aws-iam";
-import * as sfn from "@aws-cdk/aws-stepfunctions";
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from "constructs";
+import * as appsync from "aws-cdk-lib/aws-appsync";
+import * as iam from "aws-cdk-lib/aws-iam";
+import * as sfn from "aws-cdk-lib/aws-stepfunctions";
 
 export class CdkAppsyncStepfunctionsStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props)
     
     // state machine
@@ -44,7 +45,7 @@ export class CdkAppsyncStepfunctionsStack extends cdk.Stack {
     
     // api
     
-    const schema = new appsync.Schema({
+    const schema = new appsync.SchemaFile({
       filePath: "graphql/schema.graphql",
     })
     
@@ -74,7 +75,7 @@ export class CdkAppsyncStepfunctionsStack extends cdk.Stack {
     
     state_machine.grantStartExecution(httpds)
     
-    httpds.createResolver({
+    httpds.createResolver('Resolver', {
       typeName: 'Query',
       fieldName: 'run',
       requestMappingTemplate: appsync.MappingTemplate.fromString(
